@@ -14,14 +14,17 @@ document.addEventListener('DOMContentLoaded', function () {
 });
 
 function addToCart(id) {
-    console.log(`Tu as ajouté le produit ${id}`); // Console log the product id
+    console.log(`Tu as ajouté le produit ${id}`); // Console log the product i
 
     // Get the product
-    for (var i = 0; i < COURSES.length; i++) { // Loop through all courses
-        if (COURSES[i].id == id) { // If the id matches the id of the product
-            var product = COURSES[i]; // Set the product to the current course
-            break; // Stop the loop
-        }
+    let product = getProductDetails(Number(id));
+
+    if (product.stock <= 0) {
+        alert(`Ìl n'y a plus de stock dispo`);
+        return;
+    } else {
+        product.stock--;
+        document.querySelector(`.stock-${product.id}`).innerHTML = product.stock;
     }
 
     // Check if product is already in cart
@@ -34,7 +37,7 @@ function addToCart(id) {
         localStorage.setItem(productCartName, JSON.stringify(cart)); // Set the product cart
 
         // Update the cart
-        // console.log(product.slug + '-inCart');
+        console.log(product.slug + '-inCart');
         document.querySelector(`.${product.slug}-inCart`).innerHTML = cart.productsInCart; // Update the product in cart
 
     } else { // If the product cart doesn't exist
@@ -44,27 +47,8 @@ function addToCart(id) {
 
         productItemsInCart(product, cart);
     }
-
-    // Show product on cart page
-
     // Show notification
     notification(`Vous avez ajouté ${product.title} au panier`); // Run notification function
-
-    // ---
-    
-    if (e.target.classList.contains('add-to-cart')){
-        
-    }
-
-
-    // ---
-
-    // Update stock product
-    COURSES[product.id].stock--;
-    let stock = parent.getElementsByClassName('stock');
-    stock = stock - 1;
-
-
 }
 //Pop up notification
 
@@ -98,7 +82,7 @@ function productItems(querySelector, product) {
                 <span class="discount">${product.price} €</span>
             </p>
             <p>
-                Disponible: <span class="stock">${product.stock}</span>
+                Disponible: <span class="stock stock-${product.id}">${product.stock}</span>
             </p>
             <a href="#" class="add-to-cart" data-id="${product.id}"><i class="fa
                 fa-cart-plus"></i>Ajouter au panier</a>
@@ -125,19 +109,53 @@ function productItemsInCart(product, cart) {
         `;
 }
 
+function getProductDetails(id) {
+    for (var i = 0; i < COURSES.length; i++) {
+        if (COURSES[i].id === id) {
+            return COURSES[i];
+        }
+    }
+}
+
 //vider le panier
 
 // On button click add product to cart
 document.addEventListener('click', function (e) {
-    if(e.target.classList.contains('add-to-cart')){
+    if (e.target.classList.contains('add-to-cart')) {
         addToCart(e.target.dataset.id); // Add to cart
-    } else if(e.target.classList.contains('empty-cart')) {
+    } else if (e.target.classList.contains('empty-cart')) {
+        for (var i = 0; i < COURSES.length; i++) {
+            const getItem = JSON.parse(localStorage.getItem(`inCart-${COURSES[i].id}`));
+
+            if (getItem !== null) {
+                COURSES[i].stock += getItem.productsInCart;
+                console.log("Stock " + COURSES[i].stock);
+
+                document.querySelector(`.stock-${COURSES[i].id}`).innerHTML = COURSES[i].stock;
+            }
+        }
+        
         localStorage.clear();
         document.querySelector('#cart-table tbody').innerHTML = "";
-    } else if(e.target.classList.contains('fa-trash')) {
-        let idTrash = e.target.parentNode.parentNode.dataset.id;
 
-        localStorage.removeItem(`inCart-${idTrash}`);
-        document.querySelector(`.${e.target.parentNode.parentNode.classList[0]}`).remove();
+    } else if (e.target.classList.contains('fa-trash')) {
+        let idTrash = e.target.parentNode.parentNode.dataset.id;
+        let product = getProductDetails(Number(idTrash));
+
+        product.stock++;
+        document.querySelector(`.stock-${idTrash}`).innerHTML = product.stock;
+
+        let getItem = JSON.parse(localStorage.getItem(`inCart-${idTrash}`));
+
+        if (getItem.productsInCart <= 1) {
+            localStorage.removeItem(`inCart-${idTrash}`);
+            document.querySelector(`.${e.target.parentNode.parentNode.classList[0]}`).remove();
+        } else {
+            getItem.productsInCart--;
+            localStorage.setItem(`inCart-${idTrash}`, JSON.stringify(getItem));
+            document.querySelector(`.${product.slug}-inCart`).innerHTML = getItem.productsInCart;
+        }
+
+
     }
 });
