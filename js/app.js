@@ -131,7 +131,7 @@ function productItemsInCart(product, cart) {
 document.addEventListener('click', function (e) {
     if(e.target.classList.contains('add-to-cart')){
         addToCart(e.target.dataset.id); // Add to cart
-    } else if(e.target.classList.contains('#empty-cart')) {
+    } else if(e.target.classList.contains('empty-cart')) {
         localStorage.clear();
         document.querySelector('#cart-table tbody').innerHTML = "";
     } else if(e.target.classList.contains('fa-trash')) {
