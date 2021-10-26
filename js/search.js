@@ -1,6 +1,6 @@
 // search bar 
 
-document.querySelector('input').addEventListener('input', function (e) {
+document.querySelector('form.search-form input').addEventListener('input', function (e) {
     
     var input, filter;
     input = e.target.value;
@@ -22,3 +22,4 @@ document.querySelector('input').addEventListener('input', function (e) {
         showAllProducts('.courses__container', COURSES);
     }
 });
+

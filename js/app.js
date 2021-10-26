@@ -1,38 +1,16 @@
 // On document load, execute the following code
-document.addEventListener('DOMContentLoaded', function() {
-        showAllProducts('.courses__container', COURSES);
+document.addEventListener('DOMContentLoaded', function () {
+    console.image('https://avatars.githubusercontent.com/u/91029631')
+
+    showAllProducts('.courses__container', COURSES);
 
 
-            for (var i = 0; i < COURSES.length; i++) { // Loop through all courses
+    for (var i = 0; i < COURSES.length; i++) { // Loop through all courses
 
-            if (localStorage.getItem(`inCart-${COURSES[i].id}`)) {
-                document.querySelector('#cart-table tbody').innerHTML += `
-                <tr data-id="${COURSES[i].id}">
-                    <td><img src="img/courses/${COURSES[i].img}" alt=""></td>
-                    <td>${COURSES[i].title}</td>
-                    <td>${COURSES[i].price}€</td>
-                    <td class="${COURSES[i].slug}-inCart">${JSON.parse(localStorage.getItem(`inCart-${COURSES[i].id}`)).productsInCart}</td>
-                    <td><i class="fa fa-trash" aria-hidden="true"></i></td>
-                </tr>
-            `;
+        if (localStorage.getItem(`inCart-${COURSES[i].id}`)) {
+            productItemsInCart(COURSES[i], JSON.parse(localStorage.getItem(`inCart-${COURSES[i].id}`)));
         }
     }
-
-    // On button click add product to cart
-    document.querySelector('.courses__container').addEventListener('click', function (e) {
-        if (e.target.classList.contains('add-to-cart')) { // If the target is the button
-            addToCart(e.target.dataset.id); // Add to cart
-
-            let parent = e.target.parentNode.parentNode;
-
-            let stock = parent.getElementsByClassName( 'stock' );
-        }
-    });
-
-    document.querySelector('.empty-cart').addEventListener('click', function (e) {
-        localStorage.clear();
-        document.querySelector('#cart-table tbody').remove();
-    });
 });
 
 function addToCart(id) {
@@ -64,15 +42,7 @@ function addToCart(id) {
         cart = { "productsInCart": 1 }; // Create the product cart
         localStorage.setItem(productCartName, JSON.stringify(cart)); // Set the product cart
 
-        document.querySelector('#cart-table tbody').innerHTML += `
-            <tr data-id="${product.id}">
-                <td><img src="img/courses/${product.img}" alt="${product.title} image"></td>
-                <td>${product.title}</td>
-                <td>${product.price}€</td>
-                <td class="${product.slug}-inCart">${cart.productsInCart}</td>
-                <td><i class="fa fa-trash" aria-hidden="true"></i></td>
-            </tr>
-        `;
+        productItemsInCart(product, cart);
     }
 
     // Show product on cart page
@@ -80,16 +50,20 @@ function addToCart(id) {
     // Show notification
     notification(`Vous avez ajouté ${product.title} au panier`); // Run notification function
 
+    // ---
+    
+    if (e.target.classList.contains('add-to-cart')){
+        
+    }
+
+
+    // ---
+
     // Update stock product
     COURSES[product.id].stock--;
-    let stock = parent.getElementsByClassName( 'stock' );
-    let changeStock = stock.stock = -1;
-    
+    let stock = parent.getElementsByClassName('stock');
+    stock = stock - 1;
 
-    // Update stock product in DOM
-
-    // Recupere les stocks (dans courses.js) puis tu enleves 1 a chaque fois que tu clique sur le bouton. Donc en bref,
-    // Tu vas juste recupere les données de stock et tu va les modifiers pour que stock perd 1. puis tu va le mettre a jour.
 
 }
 //Pop up notification
@@ -139,18 +113,31 @@ function showAllProducts(querySelector, products) {
     }
 }
 
-
-
-
-
-
-
-
-
+function productItemsInCart(product, cart) {
+    document.querySelector('#cart-table tbody').innerHTML += `
+            <tr data-id="${product.id}" class="product-${product.id}">
+                <td><img src="img/courses/${product.img}" alt="${product.title} image"></td>
+                <td>${product.title}</td>
+                <td>${product.price}€</td>
+                <td class="${product.slug}-inCart">${cart.productsInCart}</td>
+                <td class="trash"><i class="fa fa-trash" aria-hidden="true"></i></td>
+            </tr>
+        `;
+}
 
 //vider le panier
 
-document.querySelector('.empty-cart').addEventListener('click', function (e) {
-    localStorage.clear();
-    document.querySelector('#').remove();
+// On button click add product to cart
+document.addEventListener('click', function (e) {
+    if(e.target.classList.contains('add-to-cart')){
+        addToCart(e.target.dataset.id); // Add to cart
+    } else if(e.target.classList.contains('#empty-cart')) {
+        localStorage.clear();
+        document.querySelector('#cart-table tbody').innerHTML = "";
+    } else if(e.target.classList.contains('fa-trash')) {
+        let idTrash = e.target.parentNode.parentNode.dataset.id;
+
+        localStorage.removeItem(`inCart-${idTrash}`);
+        document.querySelector(`.${e.target.parentNode.parentNode.classList[0]}`).remove();
+    }
 });
