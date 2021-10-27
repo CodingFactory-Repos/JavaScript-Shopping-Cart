@@ -173,7 +173,13 @@ document.addEventListener('click', function (e) { // On click, execute the follo
             localStorage.setItem(`inCart-${idTrash}`, JSON.stringify(getItem)); // Remove the product from the localStorage
             document.querySelector(`.${product.slug}-inCart`).innerHTML = getItem.productsInCart; // Remove the product from the cart
         }
-    } else if (e.target.classList.contains('ordre')){
-        
+    } else if (e.target.classList.contains('noteOrdre')) { // If the user clicks on the noteOrdre button, execuse the following code
+        filtre("noteCroissant");
+    } else if (e.target.classList.contains('noteDesordre')) { // If the user clicks on the noteDesordre button, execuse the following code
+        filtre("noteDecroissant");
+    } else if (e.target.classList.contains('prixOrdre')) { // If the user clicks on the prixOrdre button, execuse the following code
+        filtre("prixCroissant");
+    } else if (e.target.classList.contains('prixDesordre')) { // If the user clicks on the prixDesordre button, execuse the following code
+        filtre("prixDecroissant");
     }
 });

@@ -23,3 +23,17 @@ document.querySelector('form.search-form input').addEventListener('input', funct
     }
 });
 
+function filtre(type) {
+    if(type === "noteCroissant"){
+        COURSES.sort((a, b) => a.mark - b.mark)
+    } else if(type === "noteDecroissant"){
+        COURSES.sort((a, b) => b.mark - a.mark)
+    } else if(type === "prixCroissant"){
+        COURSES.sort((a, b) => a.price - b.price)
+    } else if(type === "prixDecroissant"){
+        COURSES.sort((a, b) => b.price - a.price)
+    }
+
+    document.querySelector('.courses__container').innerHTML = "";
+    showAllProducts('.courses__container', COURSES); // Show all products
+}

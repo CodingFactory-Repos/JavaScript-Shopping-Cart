@@ -50,6 +50,17 @@
 
     <form id="search-item" class="search-form">
       <input type="text" onkeyup="search_cours()" placeholder="Rechercher ...">
+      <div class="dropdown">
+        <button class="dropbtn" id=myBtn>Filtre</button>
+
+        <div class="dropdown-content">
+            <a class="a-dropdown-item noteOrdre" id="noteCroix">note : par ordre croissant</a>
+            <a class="a-dropdown-item noteDesordre" id="noteDecroix">note : par ordre décroissant</a>
+            <a class="a-dropdown-item prixOrdre" id="prixCroix">prix : par ordre croissant</a>
+            <a class="a-dropdown-item prixDesordre" id="prixDecroix">prix : par ordre décroissant</a>
+
+        </div>
+    </div>
     </form>
 
     <div id="courses-list">
