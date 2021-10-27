@@ -249,7 +249,6 @@ header .submenu:hover #cart::-webkit-scrollbar-thumb:hover {background: #555;}
 
 #notification_container .content {
   box-shadow: 0 1px 5px 0 #adadad;
-  background: #b2dbff;
   padding: 8px;
   border-radius: 4px;
   overflow: hidden;
@@ -260,9 +259,19 @@ header .submenu:hover #cart::-webkit-scrollbar-thumb:hover {background: #555;}
   margin: 0 0 15px;
 }
 
+#notification_container .content.success {
+  background: #b2dbff;
+  color: #000;
+}
+#notification_container .content.danger {
+  background: #ff7979;
+  color: #fff;
+}
+
 #notification_container .content img {
   width: 25px;
   height: 25px;
+  padding: 0 10px;
 }
 
 #notification_container .content p {

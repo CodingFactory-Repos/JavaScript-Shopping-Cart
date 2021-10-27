@@ -18,7 +18,7 @@ function addToCart(id) { // Add product to cart function
     let product = getProductDetails(Number(id)); // Get the product details
 
     if (product.stock <= 0) { // If stock is 0 or less
-        notification(`Il n'y a plus de stock dispo`); // Alert the user with notification
+        notification(`Il n'y a plus de stock dispo`, `danger`); // Alert the user with notification
         return; // Return
     } else { // Otherwise
         product.stock--; // Decrease 1 to the product in cart
@@ -53,10 +53,10 @@ function addToCart(id) { // Add product to cart function
 // All Functions
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
-function notification(message) { // Function to show notification
+function notification(message, type='success') { // Function to show notification
     // Show notification
     document.querySelector('#notification_container').innerHTML += `
-        <div class="content">
+        <div class="content ${type}">
             <img src="https://img.icons8.com/color/48/000000/info.png" alt="">
             <p>${message}</p>
         </div>
@@ -150,6 +150,7 @@ document.addEventListener('click', function (e) { // On click, execute the follo
         
         localStorage.clear(); // Clear the localStorage
         document.querySelector('#cart-table tbody').innerHTML = ""; // Clear cart
+        notification(`Le panier à été totalement vidé`, `danger`); // Alert the user with notification
 
     } else if (e.target.classList.contains('fa-trash')) { // If the user clicks on the fr-trash button, execute the following code
         //----------------------------------------------------//
@@ -168,10 +169,12 @@ document.addEventListener('click', function (e) { // On click, execute the follo
         if (getItem.productsInCart <= 1) { // If only 1 product is in the cart
             localStorage.removeItem(`inCart-${idTrash}`); // Remove the product from the localStorage
             document.querySelector(`.${e.target.parentNode.parentNode.classList[0]}`).remove(); // Remove the product from the cart
+            notification(`${product.title} à totalement été supprimé du panier`, `danger`); // Alert the user with notification
         } else { // Otherwise
             getItem.productsInCart--; // Decrease 1 to the product in cart
             localStorage.setItem(`inCart-${idTrash}`, JSON.stringify(getItem)); // Remove the product from the localStorage
             document.querySelector(`.${product.slug}-inCart`).innerHTML = getItem.productsInCart; // Remove the product from the cart
+            notification(`1 cours "${product.title}" à été supprimé du panier`, `danger`); // Alert the user with notification
         }
     } else if (e.target.classList.contains('noteOrdre')) { // If the user clicks on the noteOrdre button, execuse the following code
         filtre("noteCroissant");
