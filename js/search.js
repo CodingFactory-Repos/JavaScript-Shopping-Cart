@@ -23,17 +23,17 @@ document.querySelector('form.search-form input').addEventListener('input', funct
     }
 });
 
-function filtre(type) {
-    if(type === "noteCroissant"){
-        COURSES.sort((a, b) => a.mark - b.mark)
-    } else if(type === "noteDecroissant"){
-        COURSES.sort((a, b) => b.mark - a.mark)
-    } else if(type === "prixCroissant"){
-        COURSES.sort((a, b) => a.price - b.price)
-    } else if(type === "prixDecroissant"){
-        COURSES.sort((a, b) => b.price - a.price)
+function filtre(type) { // Search filter function
+    if(type === "noteCroissant"){ // If the filter is note croissant
+        COURSES.sort((a, b) => a.mark - b.mark) // Sort the courses by note
+    } else if(type === "noteDecroissant"){ // If the filter is note decroissant
+        COURSES.sort((a, b) => b.mark - a.mark) // Sort the courses by note
+    } else if(type === "prixCroissant"){ // If the filter is prix croissant
+        COURSES.sort((a, b) => a.price - b.price) // Sort the courses by price
+    } else if(type === "prixDecroissant"){ // If the filter is prix decroissant
+        COURSES.sort((a, b) => b.price - a.price) // Sort the courses by price
     }
 
-    document.querySelector('.courses__container').innerHTML = "";
+    document.querySelector('.courses__container').innerHTML = ""; // Clear products
     showAllProducts('.courses__container', COURSES); // Show all products
 }

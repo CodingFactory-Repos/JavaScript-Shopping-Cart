@@ -13,8 +13,6 @@ document.addEventListener('DOMContentLoaded', function () { // On document load,
 });
 
 function addToCart(id) { // Add product to cart function
-    console.log(`Tu as ajouté le produit ${id}`); // Console log the product i
-
     let product = getProductDetails(Number(id)); // Get the product details
 
     if (product.stock <= 0) { // If stock is 0 or less
@@ -24,7 +22,6 @@ function addToCart(id) { // Add product to cart function
         product.stock--; // Decrease 1 to the product in cart
         document.querySelector(`.stock-${product.id}`).innerHTML = product.stock; // Display the new stock
     }
-
     // Check if product is already in cart
     const productCartName = `inCart-${product.id}`; // Set the product cart name
     let cart = localStorage.getItem(productCartName); // Get the product cart
@@ -35,7 +32,6 @@ function addToCart(id) { // Add product to cart function
         localStorage.setItem(productCartName, JSON.stringify(cart)); // Set the product cart
 
         // Update the cart
-        console.log(product.slug + '-inCart'); // Console log the product slug
         document.querySelector(`.${product.slug}-inCart`).innerHTML = cart.productsInCart; // Update the product in cart
 
     } else { // If the product cart doesn't exist
@@ -50,7 +46,7 @@ function addToCart(id) { // Add product to cart function
 }
 
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-// All Functions
+// All Functions                                                                                                                                          UwU
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
 function notification(message, type='success') { // Function to show notification
@@ -142,7 +138,6 @@ document.addEventListener('click', function (e) { // On click, execute the follo
 
             if (getItem !== null) { // Check if the product is already in the cart
                 COURSES[i].stock += getItem.productsInCart; // Increment the quantity of the product in stock
-                console.log("Stock " + COURSES[i].stock);
 
                 document.querySelector(`.stock-${COURSES[i].id}`).innerHTML = COURSES[i].stock; // Display the new stock
             }
@@ -158,31 +153,30 @@ document.addEventListener('click', function (e) { // On click, execute the follo
         // your cart                                        //
         //-------------------------------------------------//
         
-        let idTrash = e.target.parentNode.parentNode.dataset.id; // Get the product id 
-        let product = getProductDetails(Number(idTrash)); // Get the product details
+        let product = getProductDetails(Number(e.target.parentNode.parentNode.dataset.id)); // Get the product details
 
         product.stock++; // Add 1 to the product stock
-        document.querySelector(`.stock-${idTrash}`).innerHTML = product.stock; // Display the new stock
+        document.querySelector(`.stock-${product.id}`).innerHTML = product.stock; // Display the new stock
 
-        let getItem = JSON.parse(localStorage.getItem(`inCart-${idTrash}`)); // See how many times the product is in the cart
+        let getItem = JSON.parse(localStorage.getItem(`inCart-${product.id}`)); // See how many times the product is in the cart
 
         if (getItem.productsInCart <= 1) { // If only 1 product is in the cart
-            localStorage.removeItem(`inCart-${idTrash}`); // Remove the product from the localStorage
+            localStorage.removeItem(`inCart-${product.id}`); // Remove the product from the localStorage
             document.querySelector(`.${e.target.parentNode.parentNode.classList[0]}`).remove(); // Remove the product from the cart
             notification(`${product.title} à totalement été supprimé du panier`, `danger`); // Alert the user with notification
         } else { // Otherwise
             getItem.productsInCart--; // Decrease 1 to the product in cart
-            localStorage.setItem(`inCart-${idTrash}`, JSON.stringify(getItem)); // Remove the product from the localStorage
+            localStorage.setItem(`inCart-${product.id}`, JSON.stringify(getItem)); // Remove the product from the localStorage
             document.querySelector(`.${product.slug}-inCart`).innerHTML = getItem.productsInCart; // Remove the product from the cart
             notification(`1 cours "${product.title}" à été supprimé du panier`, `danger`); // Alert the user with notification
         }
     } else if (e.target.classList.contains('noteOrdre')) { // If the user clicks on the noteOrdre button, execuse the following code
-        filtre("noteCroissant");
+        filtre("noteCroissant"); // Sort the products by note
     } else if (e.target.classList.contains('noteDesordre')) { // If the user clicks on the noteDesordre button, execuse the following code
-        filtre("noteDecroissant");
+        filtre("noteDecroissant"); // Sort the products by note
     } else if (e.target.classList.contains('prixOrdre')) { // If the user clicks on the prixOrdre button, execuse the following code
-        filtre("prixCroissant");
+        filtre("prixCroissant"); // Sort the products by price
     } else if (e.target.classList.contains('prixDesordre')) { // If the user clicks on the prixDesordre button, execuse the following code
-        filtre("prixDecroissant");
+        filtre("prixDecroissant"); // Sort the products by price
     }
 });
