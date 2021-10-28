@@ -5,8 +5,7 @@ document.querySelector('form.search-form input').addEventListener('input', funct
 });
 
 function search(e) {
-    var input, filter; // Inizialize variables
-    filter = e.toUpperCase(); // Convert the value to uppercase
+    var filter = e.toUpperCase(); // Convert the value to uppercase
 
     document.querySelector("#courses-list .courses__container").innerHTML = ""; // Clear results
 
