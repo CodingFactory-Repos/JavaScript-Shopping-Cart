@@ -1,0 +1,86 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Cours en ligne</title>
+    <link rel="stylesheet" href="css/styles.css">
+    <link rel="stylesheet" href="css/skeleton.css">
+    <link href="https://fonts.googleapis.com/css?family=IBM+Plex+Sans"
+      rel="stylesheet">
+    <link rel="stylesheet"
+      href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
+    <script src="https://cdn.rawgit.com/adriancooney/console.image/c9e6d4fd/console.image.min.js"></script>
+  </head>
+  <body>
+    <div id="notification_container"></div>
+    <header id="header" class="header">
+      <div class="container">
+        <div class="row">
+          <div class="four columns logo">
+            <img src="img/coding_factory.jpg" id="logo">
+          </div>
+          <div class="two columns u-pull-right">
+            <ul>
+              <li class="submenu">
+                <img src="img/cart.png" id="img-cart">
+                <div id="cart">
+                  <table id="cart-table" class="u-full-width">
+                    <thead>
+                      <tr>
+                        <th></th>
+                        <th>Article</th>
+                        <th>Prix</th>
+                        <th>Qté</th>
+                        <th></th>
+                      </tr>
+                    </thead>
+                    <tbody></tbody>
+                  </table>
+                  <a href="#" id="empty-cart" class="empty-cart button u-full-width">Vider
+                    le panier</a>
+                </div>
+              </li>
+            </ul>
+          </div>
+        </div>
+      </div>
+    </header>
+
+    <form id="search-item" class="search-form">
+      <input type="text" onkeyup="search_cours()" placeholder="Rechercher ...">
+      <div class="dropdown">
+        <button class="dropbtn" id=myBtn>Filtre</button>
+
+        <div class="dropdown-content">
+            <a class="a-dropdown-item noteOrdre" id="noteCroix">note : par ordre croissant</a>
+            <a class="a-dropdown-item noteDesordre" id="noteDecroix">note : par ordre décroissant</a>
+            <a class="a-dropdown-item prixOrdre" id="prixCroix">prix : par ordre croissant</a>
+            <a class="a-dropdown-item prixDesordre" id="prixDecroix">prix : par ordre décroissant</a>
+
+        </div>
+    </div>
+    </form>
+
+    <div id="courses-list">
+
+      <h1>Cours en ligne</h1>
+      <div class="courses__container"></div>
+      <div id="no_course" class="hidden">Aucun cours n'est disponible pour votre
+        recherche</div>
+    </div>
+
+    <div class="courses__container">
+
+    </div>
+
+    <footer>
+    </footer>
+
+    <script src="data/courses.js"></script>
+    <script src="js/app.js"></script>
+    <script src="js/search.js"></script>
+
+  </body>
+</html>
